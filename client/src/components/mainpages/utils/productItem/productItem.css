@@ -50,9 +50,9 @@ opacity: 0.5;
     text-align: center;
     text-transform: uppercase;
     color: white;
-    font-weight: 600;
-    letter-spacing: 2px;
-    padding: 6px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    padding: 7px;
 }
 #btn_buy{
     background: rgba(70, 36, 19, 0.66);
