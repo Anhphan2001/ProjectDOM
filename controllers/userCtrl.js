@@ -50,7 +50,7 @@ const userCtrl = {
       if (!user) return res.status(400).json({ msg: "Người dùng không tồn tại." });
 
       const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) return res.status(400).json({ msg: "Incorrect password." });
+      if (!isMatch) return res.status(400).json({ msg: "Mật khẩu không đúng." });
 
       // If login success , create access token and refresh token
       const accesstoken = createAccessToken({ id: user._id });
@@ -70,7 +70,7 @@ const userCtrl = {
   logout: async (req, res) => {
     try {
       res.clearCookie("refreshtoken", { path: "/user/refresh_token" });
-      return res.json({ msg: "Logged out" });
+      return res.json({ msg: "Đã đăng xuất" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -79,11 +79,11 @@ const userCtrl = {
     try {
       const rf_token = req.cookies.refreshtoken;
       if (!rf_token)
-        return res.status(400).json({ msg: "Please Login or Register" });
+        return res.status(400).json({ msg: "Vui lòng đăng nhập hoặc đăng ký" });
 
       jwt.verify(rf_token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
         if (err)
-          return res.status(400).json({ msg: "Please Login or Register" });
+          return res.status(400).json({ msg: "Vui lòng đăng nhập hoặc đăng ký" });
 
         const accesstoken = createAccessToken({ id: user.id });
 
@@ -96,7 +96,7 @@ const userCtrl = {
   getUser: async (req, res) => {
     try {
       const user = await Users.findById(req.user.id).select("-password");
-      if (!user) return res.status(400).json({ msg: "User does not exist." });
+      if (!user) return res.status(400).json({ msg: "Người dùng không tồn tại." });
 
       res.json(user);
     } catch (err) {
@@ -106,7 +106,7 @@ const userCtrl = {
   addCart: async (req, res) => {
     try {
       const user = await Users.findById(req.user.id);
-      if (!user) return res.status(400).json({ msg: "User does not exist." });
+      if (!user) return res.status(400).json({ msg: "Người dùng không tồn tại." });
 
       await Users.findOneAndUpdate(
         { _id: req.user.id },
@@ -115,7 +115,7 @@ const userCtrl = {
         }
       );
 
-      return res.json({ msg: "Added to cart" });
+      return res.json({ msg: "Đã thêm vào giỏ hàng" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
