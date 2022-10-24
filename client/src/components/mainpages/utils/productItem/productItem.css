@@ -14,7 +14,7 @@
     object-fit: cover;
 }
 .product_box h2{
-    width: 100%;
+    width: 80%;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
